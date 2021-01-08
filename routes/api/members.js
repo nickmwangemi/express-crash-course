@@ -69,17 +69,17 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
 	const found = members.some((member) => member.id === parseInt(req.params.id))
 
-	if (found) {
+	if (!found) {
+		res
+			.status(400)
+			.json({ msg: `Member with ID of ${req.params.id} Not Found` })
+	} else {
 		res.json({
 			msg: 'Member deleted',
 			payload: members.filter(
 				(member) => member.id !== parseInt(req.params.id)
 			),
 		})
-	} else {
-		res
-			.status(400)
-			.json({ msg: `Member with ID of ${req.params.id} Not Found` })
 	}
 })
 
